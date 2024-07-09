@@ -74,6 +74,7 @@
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useBeanValidation>true</useBeanValidation>
+                                <modelPackage>guru.springframework.apifirst.model</modelPackage>
                             </configOptions>
                         </configuration>
                     </execution>
