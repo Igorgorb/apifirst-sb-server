@@ -75,6 +75,7 @@
                                 <useJakartaEe>true</useJakartaEe>
                                 <useBeanValidation>true</useBeanValidation>
                                 <modelPackage>guru.springframework.apifirst.model</modelPackage>
+                                <openApiNullable>false</openApiNullable>
                             </configOptions>
                         </configuration>
                     </execution>
