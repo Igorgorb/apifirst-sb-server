@@ -1,6 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.bootstrap;
 
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
+import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.*;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,12 +19,88 @@ public class DataLoader implements CommandLineRunner {
 
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+
+    private List<Customer> customers = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
 
         CreateAndSaveCustomers();
         CreateAndSaveProducts();
+        CreateAndSaveOrders();
+    }
+
+    private void CreateAndSaveOrders() {
+        Customer savedCustomer1 = customers.get(0);
+        Customer savedCustomer2 = customers.get(1);
+        Product savedProduct1 = products.get(0);
+        Product savedProduct2 = products.get(1);
+        Order order1 = Order.builder()
+                .customer(OrderCustomer.builder()
+                        .id(savedCustomer1.getId())
+                        .name(savedCustomer1.getName())
+                        .billToAddress(savedCustomer1.getBillToAddress())
+                        .shipToAddress(savedCustomer1.getShipToAddress())
+                        .phone(savedCustomer1.getPhone())
+                        .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
+                        .build())
+                .orderStatus(Order.OrderStatusEnum.NEW)
+                .shipmentInfo("shipment info")
+                .orderLines(List.of(OrderLine.builder()
+                                .product(OrderProduct.builder()
+                                        .id(savedProduct1.getId())
+                                        .description(savedProduct1.getDescription())
+                                        .price(savedProduct1.getPrice())
+                                        .build())
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build(),
+                        OrderLine.builder()
+                                .product(OrderProduct.builder()
+                                        .id(savedProduct2.getId())
+                                        .description(savedProduct2.getDescription())
+                                        .price(savedProduct2.getPrice())
+                                        .build())
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build()))
+                .build();
+
+        Order order2 = Order.builder()
+                .customer(OrderCustomer.builder()
+                        .id(savedCustomer2.getId())
+                        .billToAddress(savedCustomer2.getBillToAddress())
+                        .shipToAddress(savedCustomer2.getShipToAddress())
+                        .phone(savedCustomer2.getPhone())
+                        .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
+                        .build())
+                .orderStatus(Order.OrderStatusEnum.NEW)
+                .shipmentInfo("shipment info #2")
+                .orderLines(List.of(OrderLine.builder()
+                                .product(OrderProduct.builder()
+                                        .id(savedProduct1.getId())
+                                        .description(savedProduct1.getDescription())
+                                        .price(savedProduct1.getPrice())
+                                        .build())
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build(),
+                        OrderLine.builder()
+                                .product(OrderProduct.builder()
+                                        .id(savedProduct2.getId())
+                                        .description(savedProduct2.getDescription())
+                                        .price(savedProduct2.getPrice())
+                                        .build())
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build()))
+                .build();
+
+        orderRepository.save(order1);
+        orderRepository.save(order2);
     }
 
     private void CreateAndSaveProducts() {
@@ -100,8 +178,8 @@ public class DataLoader implements CommandLineRunner {
                 .name("Electricity")
                 .description("Product of mechanics")
                 .dimensions(d1)
-                .categories(List.of(c1,c2))
-                .images(List.of(i1,i2))
+                .categories(List.of(c1, c2))
+                .images(List.of(i1, i2))
                 .price("100")
                 .cost("200")
                 .dateCreated(OffsetDateTime.now())
@@ -112,16 +190,16 @@ public class DataLoader implements CommandLineRunner {
                 .name("Fan")
                 .description("Product of tech")
                 .dimensions(d2)
-                .categories(List.of(c3,c2))
-                .images(List.of(i3,i4,i5))
+                .categories(List.of(c3, c2))
+                .images(List.of(i3, i4, i5))
                 .price("9999")
                 .cost("9999")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        productRepository.save(p1);
-        productRepository.save(p2);
+        products.add(productRepository.save(p1));
+        products.add(productRepository.save(p2));
     }
 
     private void CreateAndSaveCustomers() {
@@ -183,7 +261,7 @@ public class DataLoader implements CommandLineRunner {
                         .build()))
                 .build();
 
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
+        customers.add(customerRepository.save(customer1));
+        customers.add(customerRepository.save(customer2));
     }
 }
