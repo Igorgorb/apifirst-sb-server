@@ -11,24 +11,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-public class CustomerControllerTest extends BaseTest {
+class OrderControllerTest extends BaseTest {
 
-    @DisplayName("Test Get by Id Customer")
+    @DisplayName("Test Get List Order")
     @Test
-    public void testGetCustomerById() throws Exception {
-        mockMvc.perform(get(CustomerController.BASE_URL + "/{customerId}", testCustomer.getId())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testCustomer.getId().toString()));
-
-    }
-
-    @DisplayName("Test List Customers")
-    @Test
-    public void testListCustomers() throws Exception {
-        mockMvc.perform(get(CustomerController.BASE_URL)
+    void getOrders() throws Exception {
+        mockMvc.perform(get(OrderController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThan(0)));
+    }
+
+    @DisplayName("Test Get by Id Order")
+    @Test
+    void getOrder() throws Exception {
+        mockMvc.perform(get(OrderController.BASE_URL + "/{orderId}", testOrder.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(testOrder.getId().toString()));
     }
 }

@@ -1,4 +1,4 @@
-package guru.springframework.apifirst.apifirstserver.contollers;
+package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.ProductService;
 import guru.springframework.apifirst.model.Product;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-import static guru.springframework.apifirst.apifirstserver.contollers.ProductController.BASE_URL;
+import static guru.springframework.apifirst.apifirstserver.controllers.ProductController.BASE_URL;
 
 @RestController
 @RequiredArgsConstructor

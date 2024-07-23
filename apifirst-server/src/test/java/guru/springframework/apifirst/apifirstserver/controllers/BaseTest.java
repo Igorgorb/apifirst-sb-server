@@ -4,6 +4,7 @@ import guru.springframework.apifirst.apifirstserver.repositories.CustomerReposit
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.Customer;
+import guru.springframework.apifirst.model.Order;
 import guru.springframework.apifirst.model.Product;
 import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,7 @@ public class BaseTest {
 
     Customer testCustomer;
     Product testProduct;
+    Order testOrder;
 
     @BeforeEach
     public void setup() {
@@ -42,6 +44,8 @@ public class BaseTest {
 
         testCustomer = customerRepository.findAll().iterator().next();
         testProduct = productRepository.findAll().iterator().next();
+        testOrder = orderRepository.findAll().iterator().next();
+        System.out.println(testOrder);
     }
 
 }

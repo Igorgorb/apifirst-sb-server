@@ -28,6 +28,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                 .dateUpdated(OffsetDateTime.now());
         if (entity.getCustomer() != null) {
             OrderCustomer orderCustomer = getOrderCustomer(entity);
+            System.out.println("orderCustomer: " + orderCustomer);
             builder1.customer(orderCustomer);
         }
         builder1.orderStatus(entity.getOrderStatus())
@@ -58,6 +59,15 @@ public class OrderRepositoryImpl implements OrderRepository {
         ocBuilder.id(orderCustomer.getId())
                 .phone(orderCustomer.getPhone())
                 .email(orderCustomer.getEmail());
+
+        if (orderCustomer.getName() != null) {
+            ocBuilder.name(Name.builder()
+                    .firstName(orderCustomer.getName().getFirstName())
+                    .lastName(orderCustomer.getName().getLastName())
+                    .prefix(orderCustomer.getName().getPrefix())
+                    .suffix(orderCustomer.getName().getSuffix())
+                    .build());
+        }
 
         if (orderCustomer.getBillToAddress() != null) {
             ocBuilder.billToAddress(Address.builder()
