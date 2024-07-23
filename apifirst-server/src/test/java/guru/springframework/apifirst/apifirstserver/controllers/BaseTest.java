@@ -4,6 +4,7 @@ import guru.springframework.apifirst.apifirstserver.repositories.CustomerReposit
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.Customer;
+import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,13 +25,18 @@ public class BaseTest {
     @Autowired
     WebApplicationContext wac;
 
+    @Autowired
+    Filter validationFilter;
+
     public MockMvc mockMvc;
 
     Customer testCustomer;
 
     @BeforeEach
     public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .addFilter(validationFilter)
+                .build();
 
         testCustomer = customerRepository.findAll().iterator().next();
     }
