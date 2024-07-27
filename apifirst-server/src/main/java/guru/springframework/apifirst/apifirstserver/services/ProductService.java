@@ -10,4 +10,6 @@ public interface ProductService {
     List<Product> findAll();
 
     Product findById(UUID id);
+
+    Product saveNewProduct(Product product);
 }
