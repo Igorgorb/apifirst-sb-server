@@ -108,14 +108,14 @@ public class DataLoader implements CommandLineRunner {
 
     private void CreateAndSaveProducts() {
         Dimensions d1 = Dimensions.builder()
-                .widht(100)
+                .width(100)
                 .height(100)
-                .lenght(100)
+                .length(100)
                 .build();
         Dimensions d2 = Dimensions.builder()
-                .widht(200)
+                .width(200)
                 .height(300)
-                .lenght(500)
+                .length(500)
                 .build();
 
         Category c1 = Category.builder()

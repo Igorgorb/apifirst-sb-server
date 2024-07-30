@@ -28,9 +28,9 @@ public class ProductRepositoryImpl implements ProductRepository {
         builder1.id(id);
         if (entity.getDimensions() != null) {
             builder1.dimensions(Dimensions.builder()
-                    .widht(entity.getDimensions().getWidht())
+                    .width(entity.getDimensions().getWidth())
                     .height(entity.getDimensions().getHeight())
-                    .lenght(entity.getDimensions().getLenght())
+                    .length(entity.getDimensions().getLength())
                     .build()
             );
         }

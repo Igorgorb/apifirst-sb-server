@@ -54,8 +54,8 @@ public class ProductControllerTest extends BaseTest {
                         .altText("Image Alt Text")
                         .build()))
                 .dimensions(Dimensions.builder()
-                        .lenght(10)
-                        .widht(10)
+                        .length(10)
+                        .width(10)
                         .height(10)
                         .build())
                 .build();

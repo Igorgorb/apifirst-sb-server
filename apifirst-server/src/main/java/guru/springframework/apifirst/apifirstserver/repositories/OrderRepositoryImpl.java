@@ -49,7 +49,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                             .build())
                     .toList());
         }
-        Order order = entityMap.put(id, builder1.build());
+        Order order = builder1.build();
+        entityMap.put(id, order);
         return (S) order;
     }
 
