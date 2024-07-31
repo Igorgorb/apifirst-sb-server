@@ -15,19 +15,19 @@ import java.util.stream.StreamSupport;
 public class OrderRepositoryImpl implements OrderRepository {
 
 
-    private final Map<UUID, Order> entityMap = new HashMap<>();
+    private final Map<UUID, OrderDto> entityMap = new HashMap<>();
 
     @Override
-    public <S extends Order> S save(S entity) {
+    public <S extends OrderDto> S save(S entity) {
         UUID id = UUID.randomUUID();
 
-        Order.OrderBuilder builder1 = Order.builder();
+        OrderDto.OrderDtoBuilder builder1 = OrderDto.builder();
 
         builder1.id(id)
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now());
         if (entity.getCustomer() != null) {
-            OrderCustomer orderCustomer = getOrderCustomer(entity);
+            OrderCustomerDto orderCustomer = getOrderCustomer(entity);
             System.out.println("orderCustomer: " + orderCustomer);
             builder1.customer(orderCustomer);
         }
@@ -35,9 +35,9 @@ public class OrderRepositoryImpl implements OrderRepository {
                 .shipmentInfo(entity.getShipmentInfo());
         if (entity.getOrderLines() != null) {
             builder1.orderLines(entity.getOrderLines().stream()
-                    .map(orderLine -> OrderLine.builder()
+                    .map(orderLine -> OrderLineDto.builder()
                             .id(UUID.randomUUID())
-                            .product(OrderProduct.builder()
+                            .product(OrderProductDto.builder()
                                     .id(orderLine.getProduct().getId())
                                     .description(orderLine.getProduct().getDescription())
                                     .price(orderLine.getProduct().getPrice())
@@ -49,20 +49,20 @@ public class OrderRepositoryImpl implements OrderRepository {
                             .build())
                     .toList());
         }
-        Order order = builder1.build();
+        OrderDto order = builder1.build();
         entityMap.put(id, order);
         return (S) order;
     }
 
-    private static <S extends Order> OrderCustomer getOrderCustomer(S entity) {
-        OrderCustomer orderCustomer = entity.getCustomer();
-        OrderCustomer.OrderCustomerBuilder ocBuilder = OrderCustomer.builder();
+    private static <S extends OrderDto> OrderCustomerDto getOrderCustomer(S entity) {
+        OrderCustomerDto orderCustomer = entity.getCustomer();
+        OrderCustomerDto.OrderCustomerDtoBuilder ocBuilder = OrderCustomerDto.builder();
         ocBuilder.id(orderCustomer.getId())
                 .phone(orderCustomer.getPhone())
                 .email(orderCustomer.getEmail());
 
         if (orderCustomer.getName() != null) {
-            ocBuilder.name(Name.builder()
+            ocBuilder.name(NameDto.builder()
                     .firstName(orderCustomer.getName().getFirstName())
                     .lastName(orderCustomer.getName().getLastName())
                     .prefix(orderCustomer.getName().getPrefix())
@@ -71,7 +71,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
 
         if (orderCustomer.getBillToAddress() != null) {
-            ocBuilder.billToAddress(Address.builder()
+            ocBuilder.billToAddress(AddressDto.builder()
                     .id(UUID.randomUUID())
                     .addressLine1(orderCustomer.getBillToAddress().getAddressLine1())
                     .addressLine2(orderCustomer.getBillToAddress().getAddressLine2())
@@ -83,7 +83,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                     .build());
         }
         if (orderCustomer.getShipToAddress() != null) {
-            ocBuilder.shipToAddress(Address.builder()
+            ocBuilder.shipToAddress(AddressDto.builder()
                     .id(UUID.randomUUID())
                     .addressLine1(orderCustomer.getShipToAddress().getAddressLine1())
                     .addressLine2(orderCustomer.getShipToAddress().getAddressLine2())
@@ -95,7 +95,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                     .build());
         }
         if (orderCustomer.getSelectedPaymentMethod() != null) {
-            ocBuilder.selectedPaymentMethod(PaymentMethod.builder()
+            ocBuilder.selectedPaymentMethod(PaymentMethodDto.builder()
                     .id(UUID.randomUUID())
                     .displayName(orderCustomer.getSelectedPaymentMethod().getDisplayName())
                     .cardNumber(orderCustomer.getSelectedPaymentMethod().getCardNumber())
@@ -110,14 +110,14 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public <S extends Order> Iterable<S> saveAll(Iterable<S> entities) {
+    public <S extends OrderDto> Iterable<S> saveAll(Iterable<S> entities) {
         return StreamSupport.stream(entities.spliterator(), false)
                 .map(this::save)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Order> findById(UUID uuid) {
+    public Optional<OrderDto> findById(UUID uuid) {
         return Optional.of(entityMap.get(uuid));
     }
 
@@ -127,12 +127,12 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Iterable<Order> findAll() {
+    public Iterable<OrderDto> findAll() {
         return entityMap.values();
     }
 
     @Override
-    public Iterable<Order> findAllById(Iterable<UUID> uuids) {
+    public Iterable<OrderDto> findAllById(Iterable<UUID> uuids) {
         return StreamSupport.stream(uuids.spliterator(), false)
                 .map(this::findById)
                 .filter(Optional::isPresent)
@@ -151,7 +151,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void delete(Order entity) {
+    public void delete(OrderDto entity) {
         entityMap.remove(entity.getId());
     }
 
@@ -161,7 +161,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void deleteAll(Iterable<? extends Order> entities) {
+    public void deleteAll(Iterable<? extends OrderDto> entities) {
         entities.forEach(this::delete);
     }
 

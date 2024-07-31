@@ -21,9 +21,9 @@ public class DataLoader implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
 
-    private List<Customer> customers = new ArrayList<>();
-    private List<Product> products = new ArrayList<>();
-    private List<Order> orders = new ArrayList<>();
+    private List<CustomerDto> customers = new ArrayList<>();
+    private List<ProductDto> products = new ArrayList<>();
+    private List<OrderDto> orders = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
@@ -34,12 +34,12 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void CreateAndSaveOrders() {
-        Customer savedCustomer1 = customers.get(0);
-        Customer savedCustomer2 = customers.get(1);
-        Product savedProduct1 = products.get(0);
-        Product savedProduct2 = products.get(1);
-        Order order1 = Order.builder()
-                .customer(OrderCustomer.builder()
+        CustomerDto savedCustomer1 = customers.get(0);
+        CustomerDto savedCustomer2 = customers.get(1);
+        ProductDto savedProduct1 = products.get(0);
+        ProductDto savedProduct2 = products.get(1);
+        OrderDto order1 = OrderDto.builder()
+                .customer(OrderCustomerDto.builder()
                         .id(savedCustomer1.getId())
                         .name(savedCustomer1.getName())
                         .email(savedCustomer2.getEmail())
@@ -48,10 +48,10 @@ public class DataLoader implements CommandLineRunner {
                         .phone(savedCustomer1.getPhone())
                         .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
                         .build())
-                .orderStatus(Order.OrderStatusEnum.NEW)
+                .orderStatus(OrderDto.OrderStatusEnum.NEW)
                 .shipmentInfo("shipment info")
-                .orderLines(List.of(OrderLine.builder()
-                                .product(OrderProduct.builder()
+                .orderLines(List.of(OrderLineDto.builder()
+                                .product(OrderProductDto.builder()
                                         .id(savedProduct1.getId())
                                         .description(savedProduct1.getDescription())
                                         .price(savedProduct1.getPrice())
@@ -59,8 +59,8 @@ public class DataLoader implements CommandLineRunner {
                                 .orderQuantity(1)
                                 .shipQuantity(1)
                                 .build(),
-                        OrderLine.builder()
-                                .product(OrderProduct.builder()
+                        OrderLineDto.builder()
+                                .product(OrderProductDto.builder()
                                         .id(savedProduct2.getId())
                                         .description(savedProduct2.getDescription())
                                         .price(savedProduct2.getPrice())
@@ -70,8 +70,8 @@ public class DataLoader implements CommandLineRunner {
                                 .build()))
                 .build();
 
-        Order order2 = Order.builder()
-                .customer(OrderCustomer.builder()
+        OrderDto order2 = OrderDto.builder()
+                .customer(OrderCustomerDto.builder()
                         .id(savedCustomer2.getId())
                         .name(savedCustomer2.getName())
                         .email(savedCustomer2.getEmail())
@@ -80,10 +80,10 @@ public class DataLoader implements CommandLineRunner {
                         .phone(savedCustomer2.getPhone())
                         .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
                         .build())
-                .orderStatus(Order.OrderStatusEnum.NEW)
+                .orderStatus(OrderDto.OrderStatusEnum.NEW)
                 .shipmentInfo("shipment info #2")
-                .orderLines(List.of(OrderLine.builder()
-                                .product(OrderProduct.builder()
+                .orderLines(List.of(OrderLineDto.builder()
+                                .product(OrderProductDto.builder()
                                         .id(savedProduct1.getId())
                                         .description(savedProduct1.getDescription())
                                         .price(savedProduct1.getPrice())
@@ -91,8 +91,8 @@ public class DataLoader implements CommandLineRunner {
                                 .orderQuantity(1)
                                 .shipQuantity(1)
                                 .build(),
-                        OrderLine.builder()
-                                .product(OrderProduct.builder()
+                        OrderLineDto.builder()
+                                .product(OrderProductDto.builder()
                                         .id(savedProduct2.getId())
                                         .description(savedProduct2.getDescription())
                                         .price(savedProduct2.getPrice())
@@ -107,32 +107,32 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void CreateAndSaveProducts() {
-        Dimensions d1 = Dimensions.builder()
+        DimensionsDto d1 = DimensionsDto.builder()
                 .width(100)
                 .height(100)
                 .length(100)
                 .build();
-        Dimensions d2 = Dimensions.builder()
+        DimensionsDto d2 = DimensionsDto.builder()
                 .width(200)
                 .height(300)
                 .length(500)
                 .build();
 
-        Category c1 = Category.builder()
+        CategoryDto c1 = CategoryDto.builder()
                 .id(UUID.randomUUID())
                 .category("Electricity")
                 .description("Product of electricity")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Category c2 = Category.builder()
+        CategoryDto c2 = CategoryDto.builder()
                 .id(UUID.randomUUID())
                 .category("Tech")
                 .description("Product of technics")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Category c3 = Category.builder()
+        CategoryDto c3 = CategoryDto.builder()
                 .id(UUID.randomUUID())
                 .category("Mechanics")
                 .description("Product of mechanics")
@@ -140,35 +140,35 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        Image i1 = Image.builder()
+        ImageDto i1 = ImageDto.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image1.jpg")
                 .altText("image 1")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Image i2 = Image.builder()
+        ImageDto i2 = ImageDto.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image2.jpg")
                 .altText("image 2")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Image i3 = Image.builder()
+        ImageDto i3 = ImageDto.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image3.jpg")
                 .altText("image 3")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Image i4 = Image.builder()
+        ImageDto i4 = ImageDto.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image4.jpg")
                 .altText("image 4")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Image i5 = Image.builder()
+        ImageDto i5 = ImageDto.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image5.jpg")
                 .altText("image 5")
@@ -176,7 +176,7 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        Product p1 = Product.builder()
+        ProductDto p1 = ProductDto.builder()
                 .id(UUID.randomUUID())
                 .name("Electricity")
                 .description("Product of mechanics")
@@ -188,7 +188,7 @@ public class DataLoader implements CommandLineRunner {
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        Product p2 = Product.builder()
+        ProductDto p2 = ProductDto.builder()
                 .id(UUID.randomUUID())
                 .name("Fan")
                 .description("Product of tech")
@@ -206,7 +206,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void CreateAndSaveCustomers() {
-        Address address1 = Address.builder()
+        AddressDto address1 = AddressDto.builder()
                 .addressLine1("1234 W Some Street")
                 .city("Some City")
                 .state("FL")
@@ -215,8 +215,8 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        Customer customer1 = Customer.builder()
-                .name(Name.builder()
+        CustomerDto customer1 = CustomerDto.builder()
+                .name(NameDto.builder()
                         .firstName("John")
                         .lastName("Thompson")
                         .build())
@@ -224,7 +224,7 @@ public class DataLoader implements CommandLineRunner {
                 .shipToAddress(address1)
                 .email("john@springframework.guru")
                 .phone("800-555-1212")
-                .paymentMethods(List.of(PaymentMethod.builder()
+                .paymentMethods(List.of(PaymentMethodDto.builder()
                         .displayName("My Card")
                         .cardNumber(12341234)
                         .expiryMonth(12)
@@ -235,7 +235,7 @@ public class DataLoader implements CommandLineRunner {
                         .build()))
                 .build();
 
-        Address address2 = Address.builder()
+        AddressDto address2 = AddressDto.builder()
                 .addressLine1("1234 W Some Street")
                 .city("Some City")
                 .state("FL")
@@ -244,8 +244,8 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        Customer customer2 = Customer.builder()
-                .name(Name.builder()
+        CustomerDto customer2 = CustomerDto.builder()
+                .name(NameDto.builder()
                         .firstName("Jim")
                         .lastName("Smith")
                         .build())
@@ -253,7 +253,7 @@ public class DataLoader implements CommandLineRunner {
                 .shipToAddress(address2)
                 .email("jim@springframework.guru")
                 .phone("800-555-1212")
-                .paymentMethods(List.of(PaymentMethod.builder()
+                .paymentMethods(List.of(PaymentMethodDto.builder()
                         .displayName("My Other Card")
                         .cardNumber(1234888)
                         .expiryMonth(12)

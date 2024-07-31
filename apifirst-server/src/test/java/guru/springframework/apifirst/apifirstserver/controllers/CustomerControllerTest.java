@@ -1,9 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.Address;
-import guru.springframework.apifirst.model.Customer;
-import guru.springframework.apifirst.model.Name;
-import guru.springframework.apifirst.model.PaymentMethod;
+import guru.springframework.apifirst.model.AddressDto;
+import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.NameDto;
+import guru.springframework.apifirst.model.PaymentMethodDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,26 +41,26 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Test Create Customer")
     @Test
     public void testCreateCustomer() throws Exception {
-        Customer customer = Customer.builder()
-                .name(Name.builder()
+        CustomerDto customer = CustomerDto.builder()
+                .name(NameDto.builder()
                         .firstName("Newble")
                         .lastName("Brown")
                         .build())
                 .email("newble@brown.com")
                 .phone("0123456")
-                .billToAddress(Address.builder()
+                .billToAddress(AddressDto.builder()
                         .city("New York")
                         .state("NY")
                         .zip("12345")
                         .addressLine1("address line 1")
                         .build())
-                .shipToAddress(Address.builder()
+                .shipToAddress(AddressDto.builder()
                         .city("New York")
                         .state("NY")
                         .zip("12345")
                         .addressLine1("address line 1")
                         .build())
-                .paymentMethods(Arrays.asList(PaymentMethod.builder()
+                .paymentMethods(Arrays.asList(PaymentMethodDto.builder()
                         .displayName("Test payment method")
                         .cardNumber(123456789)
                         .cvv(123)

@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.Customer;
-import guru.springframework.apifirst.model.Order;
-import guru.springframework.apifirst.model.Product;
+import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.OrderDto;
+import guru.springframework.apifirst.model.ProductDto;
 import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +36,9 @@ public class BaseTest {
 
     public MockMvc mockMvc;
 
-    Customer testCustomer;
-    Product testProduct;
-    Order testOrder;
+    CustomerDto testCustomer;
+    ProductDto testProduct;
+    OrderDto testOrder;
 
     @BeforeEach
     public void setup() {

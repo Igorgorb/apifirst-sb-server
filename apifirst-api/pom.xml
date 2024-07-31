@@ -76,11 +76,12 @@
                             <generateModelTests>false</generateModelTests>
                             <generateAliasAsModel>false</generateAliasAsModel>
                             <generateApis>false</generateApis>
+                            <modelPackage>guru.springframework.apifirst.model</modelPackage>
+                            <modelNameSuffix>Dto</modelNameSuffix>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <useJakartaEe>true</useJakartaEe>
                                 <useBeanValidation>true</useBeanValidation>
-                                <modelPackage>guru.springframework.apifirst.model</modelPackage>
                                 <openApiNullable>false</openApiNullable>
                                 <additionalModelTypeAnnotations>@lombok.Builder @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
                             </configOptions>

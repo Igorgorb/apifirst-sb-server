@@ -1,9 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.repositories;
 
-import guru.springframework.apifirst.model.Category;
-import guru.springframework.apifirst.model.Dimensions;
-import guru.springframework.apifirst.model.Image;
-import guru.springframework.apifirst.model.Product;
+import guru.springframework.apifirst.model.CategoryDto;
+import guru.springframework.apifirst.model.DimensionsDto;
+import guru.springframework.apifirst.model.ImageDto;
+import guru.springframework.apifirst.model.ProductDto;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
@@ -17,17 +17,17 @@ import java.util.stream.StreamSupport;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private final Map<UUID, Product> entityMap = new HashMap<>();
+    private final Map<UUID, ProductDto> entityMap = new HashMap<>();
 
     @Override
-    public <S extends Product> S save(S entity) {
+    public <S extends ProductDto> S save(S entity) {
         UUID id = UUID.randomUUID();
 
-        Product.ProductBuilder builder1 = Product.builder();
+        ProductDto.ProductDtoBuilder builder1 = ProductDto.builder();
 
         builder1.id(id);
         if (entity.getDimensions() != null) {
-            builder1.dimensions(Dimensions.builder()
+            builder1.dimensions(DimensionsDto.builder()
                     .width(entity.getDimensions().getWidth())
                     .height(entity.getDimensions().getHeight())
                     .length(entity.getDimensions().getLength())
@@ -37,7 +37,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         if (entity.getCategories() != null) {
             builder1.categories(entity.getCategories()
                     .stream()
-                    .map(category -> Category.builder()
+                    .map(category -> CategoryDto.builder()
                             .id(UUID.randomUUID())
                             .category(category.getCategory())
                             .description(category.getDescription())
@@ -49,7 +49,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         if (entity.getImages() != null) {
             builder1.images(entity.getImages().stream()
-                    .map(image -> Image.builder()
+                    .map(image -> ImageDto.builder()
                             .id(UUID.randomUUID())
                             .url(image.getUrl())
                             .altText(image.getAltText())
@@ -59,7 +59,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                     .collect(Collectors.toList())
             );
         }
-        Product product = builder1.name(entity.getName())
+        ProductDto product = builder1.name(entity.getName())
                 .cost(entity.getCost())
                 .price(entity.getPrice())
                 .description(entity.getDescription())
@@ -73,12 +73,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public <S extends Product> Iterable<S> saveAll(Iterable<S> entities) {
+    public <S extends ProductDto> Iterable<S> saveAll(Iterable<S> entities) {
         return null;
     }
 
     @Override
-    public Optional<Product> findById(UUID uuid) {
+    public Optional<ProductDto> findById(UUID uuid) {
         return Optional.of(entityMap.get(uuid));
     }
 
@@ -88,12 +88,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Iterable<Product> findAll() {
+    public Iterable<ProductDto> findAll() {
         return entityMap.values();
     }
 
     @Override
-    public Iterable<Product> findAllById(Iterable<UUID> uuids) {
+    public Iterable<ProductDto> findAllById(Iterable<UUID> uuids) {
         return StreamSupport.stream(uuids.spliterator(), false)
                 .map(this::findById)
                 .filter(Optional::isPresent)
@@ -112,7 +112,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void delete(Product entity) {
+    public void delete(ProductDto entity) {
         entityMap.remove(entity.getId());
     }
 
@@ -122,7 +122,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void deleteAll(Iterable<? extends Product> entities) {
+    public void deleteAll(Iterable<? extends ProductDto> entities) {
         entities.forEach(this::delete);
     }
 

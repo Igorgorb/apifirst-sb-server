@@ -1,7 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.Product;
+import guru.springframework.apifirst.model.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +16,18 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<Product> findAll() {
+    public List<ProductDto> findAll() {
         return StreamSupport.stream(productRepository.findAll().spliterator(), false)
                 .toList();
     }
 
     @Override
-    public Product findById(UUID id) {
+    public ProductDto findById(UUID id) {
         return productRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public Product saveNewProduct(Product product) {
+    public ProductDto saveNewProduct(ProductDto product) {
         return productRepository.save(product);
     }
 }
