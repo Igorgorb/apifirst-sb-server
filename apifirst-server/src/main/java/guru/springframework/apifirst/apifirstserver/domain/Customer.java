@@ -21,6 +21,9 @@ public class Customer {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Embedded
+    private Name name;
+
     private String email;
     private String phone;
 }
