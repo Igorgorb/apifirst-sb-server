@@ -2,8 +2,11 @@ package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -38,6 +41,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<PaymentMethod> paymentMethods;
 
+    @CreationTimestamp
     private OffsetDateTime dateCreated;
+
+    @UpdateTimestamp
     private OffsetDateTime dateUpdated;
 }
