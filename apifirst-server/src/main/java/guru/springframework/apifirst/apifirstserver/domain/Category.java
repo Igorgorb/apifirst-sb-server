@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Product {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,22 +25,11 @@ public class Product {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
-    private String name;
-
+    private String category;
     private String description;
 
-    @Embedded
-    private Dimensions dimensions;
-
-    @ManyToMany
-    private List<Category> categories;
-
-    @OneToMany(mappedBy = "product")
-    private List<Image> images;
-
-    private String price;
-
-    private String cost;
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products;
 
     @CreationTimestamp
     private OffsetDateTime dateCreated;
