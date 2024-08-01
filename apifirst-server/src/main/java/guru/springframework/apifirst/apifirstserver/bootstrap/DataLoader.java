@@ -29,8 +29,8 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         CreateAndSaveCustomers();
-        CreateAndSaveProducts();
-        CreateAndSaveOrders();
+//        CreateAndSaveProducts();
+//        CreateAndSaveOrders();
     }
 
     private void CreateAndSaveOrders() {
@@ -102,8 +102,8 @@ public class DataLoader implements CommandLineRunner {
                                 .build()))
                 .build();
 
-        orderRepository.save(order1);
-        orderRepository.save(order2);
+//        orderRepository.save(order1);
+//        orderRepository.save(order2);
     }
 
     private void CreateAndSaveProducts() {
@@ -201,8 +201,8 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        products.add(productRepository.save(p1));
-        products.add(productRepository.save(p2));
+//        products.add(productRepository.save(p1));
+//        products.add(productRepository.save(p2));
     }
 
     private void CreateAndSaveCustomers() {
@@ -264,7 +264,7 @@ public class DataLoader implements CommandLineRunner {
                         .build()))
                 .build();
 
-        customers.add(customerRepository.save(customer1));
-        customers.add(customerRepository.save(customer2));
+//        customers.add(customerRepository.save(customer1));
+//        customers.add(customerRepository.save(customer2));
     }
 }

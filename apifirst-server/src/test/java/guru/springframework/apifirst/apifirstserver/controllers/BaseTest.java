@@ -46,10 +46,10 @@ public class BaseTest {
                 .addFilter(validationFilter)
                 .build();
 
-        testCustomer = customerRepository.findAll().iterator().next();
-        testProduct = productRepository.findAll().iterator().next();
-        testOrder = orderRepository.findAll().iterator().next();
-        System.out.println(testOrder);
+//        testCustomer = customerRepository.findAll().iterator().next();
+//        testProduct = productRepository.findAll().iterator().next();
+//        testOrder = orderRepository.findAll().iterator().next();
+//        System.out.println(testOrder);
     }
 
 }
