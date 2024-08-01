@@ -17,17 +17,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
-                .toList();
+//        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
+//                .toList();
+        return null;
     }
 
     @Override
     public ProductDto findById(UUID id) {
-        return productRepository.findById(id).orElseThrow();
+//        return productRepository.findById(id).orElseThrow();
+        return null;
     }
 
     @Override
     public ProductDto saveNewProduct(ProductDto product) {
-        return productRepository.save(product);
+//        return productRepository.save(product);
+        return null;
     }
 }
