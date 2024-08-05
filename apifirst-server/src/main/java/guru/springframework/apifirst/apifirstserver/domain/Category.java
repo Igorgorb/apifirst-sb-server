@@ -1,6 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -27,6 +29,11 @@ public class Category {
 
     private String category;
     private String description;
+
+//    @Column(name = "category_code")
+//    @Min(3)
+//    @Max(25)
+    private String categoryCode;
 
     @ManyToMany(mappedBy = "categories")
     private List<Product> products;

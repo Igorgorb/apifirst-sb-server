@@ -1,12 +1,11 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
-import guru.springframework.apifirst.model.CategoryDto;
-import guru.springframework.apifirst.model.DimensionsDto;
-import guru.springframework.apifirst.model.ImageDto;
-import guru.springframework.apifirst.model.ProductDto;
+import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
+import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import java.util.Arrays;
@@ -17,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@Import(OpenApiValidationConfig.class)
 public class ProductControllerTest extends BaseTest {
     @DisplayName("Test Get by Id Product")
     @Test
@@ -39,15 +39,11 @@ public class ProductControllerTest extends BaseTest {
     @DisplayName("Test create product")
     @Test
     public void testCreateProduct() throws Exception {
-        ProductDto newProduct = ProductDto.builder()
-                .name("New Product")
+        ProductCreateDto newProduct = ProductCreateDto.builder()
                 .description("New Product")
                 .cost("5.00")
                 .price("8.95")
-                .categories(Arrays.asList(CategoryDto.builder()
-                        .category("New Category")
-                        .description("New Category Description")
-                        .build()))
+                .categories(Arrays.asList("NEW_CATRGORY"))
                 .images(Arrays.asList(ImageDto.builder()
                         .url("http://example.com/image.jpg")
                         .altText("Image Alt Text")
