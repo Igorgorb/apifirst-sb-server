@@ -1,6 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.apifirst.apifirstserver.domain.Customer;
+import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
@@ -37,9 +39,9 @@ public class BaseTest {
 
     public MockMvc mockMvc;
 
-    CustomerDto testCustomer;
+    Customer testCustomer;
     Product testProduct;
-    OrderDto testOrder;
+    Order testOrder;
 
     @BeforeEach
     public void setup() {
@@ -47,9 +49,9 @@ public class BaseTest {
                 .addFilter(validationFilter)
                 .build();
 
-//        testCustomer = customerRepository.findAll().iterator().next();
+        testCustomer = customerRepository.findAll().iterator().next();
         testProduct = productRepository.findAll().iterator().next();
-//        testOrder = orderRepository.findAll().iterator().next();
+        testOrder = orderRepository.findAll().iterator().next();
 //        System.out.println(testOrder);
     }
 

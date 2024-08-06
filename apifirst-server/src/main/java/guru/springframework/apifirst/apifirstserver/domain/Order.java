@@ -38,7 +38,7 @@ public class Order {
     private String shipmentInfo;
 
     @Builder.Default
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines = new ArrayList<>();
 
     @CreationTimestamp

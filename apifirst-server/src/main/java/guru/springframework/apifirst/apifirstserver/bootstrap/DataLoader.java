@@ -28,7 +28,7 @@ public class DataLoader implements CommandLineRunner {
     private List<Category> categories = new ArrayList<>();
     private List<Customer> customers = new ArrayList<>();
     private List<Product> products = new ArrayList<>();
-    private List<OrderDto> orders = new ArrayList<>();
+//    private List<Order> orders = new ArrayList<>();
 
     @Override
     public void run(String... args) throws Exception {
@@ -36,7 +36,7 @@ public class DataLoader implements CommandLineRunner {
         CreateAndSaveCategories();
         CreateAndSaveCustomers();
         CreateAndSaveProducts();
-//        CreateAndSaveOrders();
+        CreateAndSaveOrders();
     }
 
     private void CreateAndSaveCategories() {
@@ -64,76 +64,44 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void CreateAndSaveOrders() {
-//        Customer savedCustomer1 = customers.get(0);
-//        Customer savedCustomer2 = customers.get(1);
-//        ProductDto savedProduct1 = products.get(0);
-//        ProductDto savedProduct2 = products.get(1);
-//        OrderDto order1 = OrderDto.builder()
-//                .customer(OrderCustomerDto.builder()
-//                        .id(savedCustomer1.getId())
-//                        .name(savedCustomer1.getName())
-//                        .email(savedCustomer2.getEmail())
-//                        .billToAddress(savedCustomer1.getBillToAddress())
-//                        .shipToAddress(savedCustomer1.getShipToAddress())
-//                        .phone(savedCustomer1.getPhone())
-//                        .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
-//                        .build())
-//                .orderStatus(OrderDto.OrderStatusEnum.NEW)
-//                .shipmentInfo("shipment info")
-//                .orderLines(List.of(OrderLineDto.builder()
-//                                .product(OrderProductDto.builder()
-//                                        .id(savedProduct1.getId())
-//                                        .description(savedProduct1.getDescription())
-//                                        .price(savedProduct1.getPrice())
-//                                        .build())
-//                                .orderQuantity(1)
-//                                .shipQuantity(1)
-//                                .build(),
-//                        OrderLineDto.builder()
-//                                .product(OrderProductDto.builder()
-//                                        .id(savedProduct2.getId())
-//                                        .description(savedProduct2.getDescription())
-//                                        .price(savedProduct2.getPrice())
-//                                        .build())
-//                                .orderQuantity(1)
-//                                .shipQuantity(1)
-//                                .build()))
-//                .build();
-//
-//        OrderDto order2 = OrderDto.builder()
-//                .customer(OrderCustomerDto.builder()
-//                        .id(savedCustomer2.getId())
-//                        .name(savedCustomer2.getName())
-//                        .email(savedCustomer2.getEmail())
-//                        .billToAddress(savedCustomer2.getBillToAddress())
-//                        .shipToAddress(savedCustomer2.getShipToAddress())
-//                        .phone(savedCustomer2.getPhone())
-//                        .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
-//                        .build())
-//                .orderStatus(OrderDto.OrderStatusEnum.NEW)
-//                .shipmentInfo("shipment info #2")
-//                .orderLines(List.of(OrderLineDto.builder()
-//                                .product(OrderProductDto.builder()
-//                                        .id(savedProduct1.getId())
-//                                        .description(savedProduct1.getDescription())
-//                                        .price(savedProduct1.getPrice())
-//                                        .build())
-//                                .orderQuantity(1)
-//                                .shipQuantity(1)
-//                                .build(),
-//                        OrderLineDto.builder()
-//                                .product(OrderProductDto.builder()
-//                                        .id(savedProduct2.getId())
-//                                        .description(savedProduct2.getDescription())
-//                                        .price(savedProduct2.getPrice())
-//                                        .build())
-//                                .orderQuantity(1)
-//                                .shipQuantity(1)
-//                                .build()))
-//                .build();
+        Customer savedCustomer1 = customers.get(0);
+        Customer savedCustomer2 = customers.get(1);
+        Product savedProduct1 = products.get(0);
+        Product savedProduct2 = products.get(1);
+        Order order1 = Order.builder()
+                .customer(savedCustomer1)
+                .orderStatus(OrderStatus.NEW)
+                .shipmentInfo("shipment info")
+                .orderLines(List.of(OrderLine.builder()
+                                .product(savedProduct1)
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build(),
+                        OrderLine.builder()
+                                .product(savedProduct2)
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build()))
+                .build();
 
-//        orderRepository.save(order1);
-//        orderRepository.save(order2);
+        Order order2 = Order.builder()
+                .customer(savedCustomer2)
+                .orderStatus(OrderStatus.NEW)
+                .shipmentInfo("shipment info #2")
+                .orderLines(List.of(OrderLine.builder()
+                                .product(savedProduct1)
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build(),
+                        OrderLine.builder()
+                                .product(savedProduct2)
+                                .orderQuantity(1)
+                                .shipQuantity(1)
+                                .build()))
+                .build();
+
+        orderRepository.save(order1);
+        orderRepository.save(order2);
     }
 
     private void CreateAndSaveProducts() {
@@ -147,28 +115,6 @@ public class DataLoader implements CommandLineRunner {
                 .height(300)
                 .length(500)
                 .build();
-
-//        Category c1 = Category.builder()
-//                .id(UUID.randomUUID())
-//                .category("Electricity")
-//                .description("Product of electricity")
-//                .dateCreated(OffsetDateTime.now())
-//                .dateUpdated(OffsetDateTime.now())
-//                .build();
-//        Category c2 = Category.builder()
-//                .id(UUID.randomUUID())
-//                .category("Tech")
-//                .description("Product of technics")
-//                .dateCreated(OffsetDateTime.now())
-//                .dateUpdated(OffsetDateTime.now())
-//                .build();
-//        Category c3 = Category.builder()
-//                .id(UUID.randomUUID())
-//                .category("Mechanics")
-//                .description("Product of mechanics")
-//                .dateCreated(OffsetDateTime.now())
-//                .dateUpdated(OffsetDateTime.now())
-//                .build();
 
         Image i1 = Image.builder()
                 .id(UUID.randomUUID())
@@ -207,7 +153,6 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
         Product p1 = Product.builder()
-//                .id(UUID.randomUUID())
                 .name("Electricity")
                 .description("Product of mechanics")
                 .dimensions(d1)
@@ -219,7 +164,6 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
         Product p2 = Product.builder()
-//                .id(UUID.randomUUID())
                 .name("Fan")
                 .description("Product of tech")
                 .dimensions(d2)
