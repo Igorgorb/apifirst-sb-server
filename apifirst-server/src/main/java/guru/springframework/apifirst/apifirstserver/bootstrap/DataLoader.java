@@ -70,6 +70,7 @@ public class DataLoader implements CommandLineRunner {
         Product savedProduct2 = products.get(1);
         Order order1 = Order.builder()
                 .customer(savedCustomer1)
+                .selectedPaymentMethod(savedCustomer1.getPaymentMethods().get(0))
                 .orderStatus(OrderStatus.NEW)
                 .shipmentInfo("shipment info")
                 .orderLines(List.of(OrderLine.builder()
@@ -86,6 +87,7 @@ public class DataLoader implements CommandLineRunner {
 
         Order order2 = Order.builder()
                 .customer(savedCustomer2)
+                .selectedPaymentMethod(savedCustomer2.getPaymentMethods().get(0))
                 .orderStatus(OrderStatus.NEW)
                 .shipmentInfo("shipment info #2")
                 .orderLines(List.of(OrderLine.builder()

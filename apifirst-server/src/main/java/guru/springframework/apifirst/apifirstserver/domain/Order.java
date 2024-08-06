@@ -27,9 +27,11 @@ public class Order {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
-
     @ManyToOne
     private Customer customer;
+
+    @ManyToOne
+    private PaymentMethod selectedPaymentMethod;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
