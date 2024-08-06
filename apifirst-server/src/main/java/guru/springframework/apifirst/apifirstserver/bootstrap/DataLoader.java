@@ -27,7 +27,7 @@ public class DataLoader implements CommandLineRunner {
 
     private List<Category> categories = new ArrayList<>();
     private List<Customer> customers = new ArrayList<>();
-    private List<ProductDto> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
     private List<OrderDto> orders = new ArrayList<>();
 
     @Override
@@ -35,7 +35,7 @@ public class DataLoader implements CommandLineRunner {
 
         CreateAndSaveCategories();
         CreateAndSaveCustomers();
-//        CreateAndSaveProducts();
+        CreateAndSaveProducts();
 //        CreateAndSaveOrders();
     }
 
@@ -57,6 +57,10 @@ public class DataLoader implements CommandLineRunner {
                 .description("Dry Goods")
                 .categoryCode("DRYGOODS")
                 .build());
+
+        categories.add(electronics);
+        categories.add(clothing);
+        categories.add(dryGoods);
     }
 
     private void CreateAndSaveOrders() {
@@ -133,68 +137,68 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void CreateAndSaveProducts() {
-        DimensionsDto d1 = DimensionsDto.builder()
+        Dimensions d1 = Dimensions.builder()
                 .width(100)
                 .height(100)
                 .length(100)
                 .build();
-        DimensionsDto d2 = DimensionsDto.builder()
+        Dimensions d2 = Dimensions.builder()
                 .width(200)
                 .height(300)
                 .length(500)
                 .build();
 
-        CategoryDto c1 = CategoryDto.builder()
-                .id(UUID.randomUUID())
-                .category("Electricity")
-                .description("Product of electricity")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
-                .build();
-        CategoryDto c2 = CategoryDto.builder()
-                .id(UUID.randomUUID())
-                .category("Tech")
-                .description("Product of technics")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
-                .build();
-        CategoryDto c3 = CategoryDto.builder()
-                .id(UUID.randomUUID())
-                .category("Mechanics")
-                .description("Product of mechanics")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
-                .build();
+//        Category c1 = Category.builder()
+//                .id(UUID.randomUUID())
+//                .category("Electricity")
+//                .description("Product of electricity")
+//                .dateCreated(OffsetDateTime.now())
+//                .dateUpdated(OffsetDateTime.now())
+//                .build();
+//        Category c2 = Category.builder()
+//                .id(UUID.randomUUID())
+//                .category("Tech")
+//                .description("Product of technics")
+//                .dateCreated(OffsetDateTime.now())
+//                .dateUpdated(OffsetDateTime.now())
+//                .build();
+//        Category c3 = Category.builder()
+//                .id(UUID.randomUUID())
+//                .category("Mechanics")
+//                .description("Product of mechanics")
+//                .dateCreated(OffsetDateTime.now())
+//                .dateUpdated(OffsetDateTime.now())
+//                .build();
 
-        ImageDto i1 = ImageDto.builder()
+        Image i1 = Image.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image1.jpg")
                 .altText("image 1")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        ImageDto i2 = ImageDto.builder()
+        Image i2 = Image.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image2.jpg")
                 .altText("image 2")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        ImageDto i3 = ImageDto.builder()
+        Image i3 = Image.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image3.jpg")
                 .altText("image 3")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        ImageDto i4 = ImageDto.builder()
+        Image i4 = Image.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image4.jpg")
                 .altText("image 4")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        ImageDto i5 = ImageDto.builder()
+        Image i5 = Image.builder()
                 .id(UUID.randomUUID())
                 .url("www.google.com/image5.jpg")
                 .altText("image 5")
@@ -202,24 +206,24 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-        ProductDto p1 = ProductDto.builder()
-                .id(UUID.randomUUID())
+        Product p1 = Product.builder()
+//                .id(UUID.randomUUID())
                 .name("Electricity")
                 .description("Product of mechanics")
                 .dimensions(d1)
-                .categories(List.of(c1, c2))
+                .categories(List.of(categories.get(0), categories.get(1)))
                 .images(List.of(i1, i2))
                 .price("100")
                 .cost("200")
                 .dateCreated(OffsetDateTime.now())
                 .dateUpdated(OffsetDateTime.now())
                 .build();
-        ProductDto p2 = ProductDto.builder()
-                .id(UUID.randomUUID())
+        Product p2 = Product.builder()
+//                .id(UUID.randomUUID())
                 .name("Fan")
                 .description("Product of tech")
                 .dimensions(d2)
-                .categories(List.of(c3, c2))
+                .categories(List.of(categories.get(1), categories.get(2)))
                 .images(List.of(i3, i4, i5))
                 .price("9999")
                 .cost("9999")
@@ -227,8 +231,8 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
 
-//        products.add(productRepository.save(p1));
-//        products.add(productRepository.save(p2));
+        products.add(productRepository.save(p1));
+        products.add(productRepository.save(p2));
     }
 
     private void CreateAndSaveCustomers() {

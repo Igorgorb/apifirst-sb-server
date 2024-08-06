@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -20,15 +21,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-//        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
-//                .toList();
-        return null;
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false)
+                .map(productMapper::productToDto)
+                .peek(System.out::println)
+                .toList();
     }
 
     @Override
     public ProductDto findById(UUID id) {
-//        return productRepository.findById(id).orElseThrow();
-        return null;
+        return productMapper.productToDto(productRepository.findById(id).orElseThrow());
+
     }
 
     @Override

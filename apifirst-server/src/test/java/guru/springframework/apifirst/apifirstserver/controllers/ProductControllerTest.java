@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Import(OpenApiValidationConfig.class)
 public class ProductControllerTest extends BaseTest {
+
     @DisplayName("Test Get by Id Product")
     @Test
     public void testGetProductById() throws Exception {

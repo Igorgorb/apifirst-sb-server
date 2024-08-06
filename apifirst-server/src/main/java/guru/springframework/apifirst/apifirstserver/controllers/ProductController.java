@@ -22,6 +22,7 @@ public class ProductController {
     public static final String BASE_URL = "/v1/products";
 
     private final ProductService productService;
+
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
         return ResponseEntity.ok(productService.findAll());
