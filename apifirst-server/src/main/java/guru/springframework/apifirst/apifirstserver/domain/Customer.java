@@ -1,6 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -35,7 +36,10 @@ public class Customer {
     @Embedded
     private Name name;
 
+    @Size(min=3,max=255)
     private String email;
+
+    @Size(min=7,max=15)
     private String phone;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

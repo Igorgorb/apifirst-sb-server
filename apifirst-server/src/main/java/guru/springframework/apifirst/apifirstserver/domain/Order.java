@@ -1,6 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -37,6 +38,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.NEW;
 
+    @Size(min=1,max=255)
     private String shipmentInfo;
 
     @Builder.Default
