@@ -28,6 +28,7 @@ public class OrderLine {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
     @ManyToOne
     private Order order;
 

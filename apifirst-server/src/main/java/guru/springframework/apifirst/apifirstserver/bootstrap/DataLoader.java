@@ -102,6 +102,9 @@ public class DataLoader implements CommandLineRunner {
                                 .build()))
                 .build();
 
+        order2.getOrderLines().forEach(ol -> ol.setOrder(order2));
+        order1.getOrderLines().forEach(ol -> ol.setOrder(order1));
+
         orderRepository.save(order1);
         orderRepository.save(order2);
     }
