@@ -27,13 +27,13 @@ public abstract class ProductMapperDecorator implements ProductMapper {
 
     @Override
     public Product dtoToProduct(ProductCreateDto productCreateDto) {
-        if(productCreateDto != null) {
+        if (productCreateDto != null) {
             Product product = productMapperDelegate.dtoToProduct(productCreateDto);
 
-            if(productCreateDto.getCategories() != null) {
+            if (productCreateDto.getCategories() != null) {
                 List<Category> categories = new ArrayList<>();
                 productCreateDto.getCategories().forEach(
-                        categoryCode ->{
+                        categoryCode -> {
                             categoryRepository.findByCategoryCode(categoryCode).ifPresent(categories::add);
                         }
                 );
