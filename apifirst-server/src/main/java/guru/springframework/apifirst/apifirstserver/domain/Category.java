@@ -1,8 +1,8 @@
 package guru.springframework.apifirst.apifirstserver.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -27,12 +27,16 @@ public class Category {
     @Column(length = 36, columnDefinition = "char(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @NotNull
+    @Size(min = 3, max = 25)
     private String category;
+
+    @NotNull
+    @Size(min = 3, max = 150)
     private String description;
 
-//    @Column(name = "category_code")
-//    @Min(3)
-//    @Max(25)
+    @NotNull
+    @Size(min = 3, max = 25)
     private String categoryCode;
 
     @ManyToMany(mappedBy = "categories")
