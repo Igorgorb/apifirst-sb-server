@@ -120,39 +120,24 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
         Image i1 = Image.builder()
-                .id(UUID.randomUUID())
                 .url("www.google.com/image1.jpg")
                 .altText("image 1")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
                 .build();
         Image i2 = Image.builder()
-                .id(UUID.randomUUID())
                 .url("www.google.com/image2.jpg")
                 .altText("image 2")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
                 .build();
         Image i3 = Image.builder()
-                .id(UUID.randomUUID())
                 .url("www.google.com/image3.jpg")
                 .altText("image 3")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
                 .build();
         Image i4 = Image.builder()
-                .id(UUID.randomUUID())
                 .url("www.google.com/image4.jpg")
                 .altText("image 4")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
                 .build();
         Image i5 = Image.builder()
-                .id(UUID.randomUUID())
                 .url("www.google.com/image5.jpg")
                 .altText("image 5")
-                .dateCreated(OffsetDateTime.now())
-                .dateUpdated(OffsetDateTime.now())
                 .build();
 
         Product p1 = Product.builder()
