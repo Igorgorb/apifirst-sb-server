@@ -29,10 +29,6 @@ public class Product {
     private UUID id;
 
     @NotNull
-    @Size(min=2,max=100)
-    private String name;
-
-    @NotNull
     @Size(min=10,max=250)
     private String description;
 

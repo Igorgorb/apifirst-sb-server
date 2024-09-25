@@ -78,7 +78,6 @@ public class ProductServiceImpl implements ProductService {
 
         return ProductDto.builder()
                 .id(UUID.randomUUID())
-                .name("Electricity")
                 .description("Product of mechanics")
                 .dimensions(d2)
                 .categories(List.of(c1, c2))

@@ -30,9 +30,6 @@ public abstract class ProductMapperDecorator implements ProductMapper {
         if (productCreateDto != null) {
             Product product = productMapperDelegate.dtoToProduct(productCreateDto);
 
-            if (product != null && product.getName() == null) {
-                product.setName("My beautiful product");
-            }
             if (productCreateDto.getCategories() != null) {
                 List<Category> categories = new ArrayList<>();
                 productCreateDto.getCategories().forEach(

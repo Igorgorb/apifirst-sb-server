@@ -5,14 +5,12 @@ import guru.springframework.apifirst.apifirstserver.repositories.CategoryReposit
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -158,7 +156,6 @@ public class DataLoader implements CommandLineRunner {
                 .build();
 
         Product p1 = Product.builder()
-                .name("Electricity")
                 .description("Product of mechanics")
                 .dimensions(d1)
                 .categories(List.of(categories.get(0), categories.get(1)))
@@ -169,7 +166,6 @@ public class DataLoader implements CommandLineRunner {
                 .dateUpdated(OffsetDateTime.now())
                 .build();
         Product p2 = Product.builder()
-                .name("Fan")
                 .description("Product of tech")
                 .dimensions(d2)
                 .categories(List.of(categories.get(1), categories.get(2)))

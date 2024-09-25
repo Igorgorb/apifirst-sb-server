@@ -44,7 +44,7 @@ class ProductMapperTest {
         assertEquals(productCreateDto.getCategories().get(0), product.getCategories().get(0).getCategoryCode());
 
         //test to catch changes, fail test if fields are added
-        assertEquals(10, product.getClass().getDeclaredFields().length);
+        assertEquals(9, product.getClass().getDeclaredFields().length);
 
     }
 
