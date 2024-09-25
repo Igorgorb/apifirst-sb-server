@@ -2,11 +2,14 @@ package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.model.ProductCreateDto;
 import guru.springframework.apifirst.model.ProductDto;
+import guru.springframework.apifirst.model.ProductUpdateDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
+
+    ProductDto updateProduct(UUID productId,  ProductUpdateDto product);
 
     List<ProductDto> findAll();
 
