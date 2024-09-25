@@ -1,23 +1,41 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
+import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @Import(OpenApiValidationConfig.class)
 public class ProductControllerTest extends BaseTest {
+
+    @Transactional
+    @Test
+    void testUpdateProduct() throws Exception {
+        Product product = productRepository.findAll().iterator().next();
+
+        ProductUpdateDto productUpdateDto = productMapper.productToUpdateDto(product);
+
+        productUpdateDto.setDescription("Updated Description");
+
+        mockMvc.perform(put( ProductController.BASE_URL + "/{productId}", product.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productUpdateDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description", equalTo("Updated Description")));
+    }
 
     @DisplayName("Test Get by Id Product")
     @Test

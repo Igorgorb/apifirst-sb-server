@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
+import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
@@ -36,6 +37,9 @@ public class BaseTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    ProductMapper productMapper;
 
     public MockMvc mockMvc;
 
