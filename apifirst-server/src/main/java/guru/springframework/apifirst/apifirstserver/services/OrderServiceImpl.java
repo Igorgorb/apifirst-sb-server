@@ -2,13 +2,13 @@ package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.apifirstserver.mappers.OrderMapper;
-import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
-import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.OrderCreateDto;
 import guru.springframework.apifirst.model.OrderDto;
+import guru.springframework.apifirst.model.OrderUpdateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +36,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto saveNewOrder(OrderCreateDto orderCreate) {
         Order savedOrder = orderRepository.saveAndFlush(orderMapper.dtoToOrder(orderCreate));
+
+        return orderMapper.orderToDto(savedOrder);
+    }
+
+    @Transactional
+    @Override
+    public OrderDto updateOrder(UUID orderId, OrderUpdateDto orderUpdateDto) {
+        Order existingOrder = orderRepository.findById(orderId).orElseThrow();
+
+        orderMapper.updateOrder(orderUpdateDto, existingOrder);
+
+        Order savedOrder = orderRepository.saveAndFlush(existingOrder);
 
         return orderMapper.orderToDto(savedOrder);
     }

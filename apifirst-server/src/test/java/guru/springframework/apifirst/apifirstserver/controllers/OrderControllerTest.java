@@ -1,7 +1,9 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.model.OrderCreateDto;
 import guru.springframework.apifirst.model.OrderLineCreateDto;
+import guru.springframework.apifirst.model.OrderUpdateDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,13 +12,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 class OrderControllerTest extends BaseTest {
+
+    @DisplayName("Update Order")
+    @Transactional
+    @Test
+    void updateOrder() throws Exception {
+        Order order = orderRepository.findAll().get(0);
+
+        order.getOrderLines().get(0).setOrderQuantity(222);
+        OrderUpdateDto orderUpdateDto = orderMapper.orderToUpdateDto(order);
+
+        mockMvc.perform(put(OrderController.BASE_URL + "/{orderId}", order.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderUpdateDto))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", equalTo(order.getId().toString())))
+                .andExpect(jsonPath("$.orderLines[0].orderQuantity", equalTo(222)));
+
+    }
 
     @DisplayName("Create New Order")
     @Test
