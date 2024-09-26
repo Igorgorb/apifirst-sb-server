@@ -23,6 +23,13 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable("customerId") UUID customerId,
+                                                      @RequestBody CustomerDto customerDto) {
+        CustomerDto customerDtoUpdated = customerService.updateCustomer(customerId, customerDto);
+        return ResponseEntity.ok(customerDtoUpdated);
+    }
+
     @GetMapping
     public ResponseEntity<List<CustomerDto>> getCustomers() {
         return ResponseEntity.ok(customerService.listCustomers());

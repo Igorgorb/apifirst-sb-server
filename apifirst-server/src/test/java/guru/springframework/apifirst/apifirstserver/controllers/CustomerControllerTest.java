@@ -1,5 +1,6 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.model.AddressDto;
 import guru.springframework.apifirst.model.CustomerDto;
 import guru.springframework.apifirst.model.NameDto;
@@ -8,16 +9,35 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
+
+    @Transactional
+    @DisplayName("Test update Customer")
+    @Test
+    void testUpdateCustomer() throws Exception {
+        Customer customer = customerRepository.findAll().iterator().next();
+
+        CustomerDto customerDto = customerMapper.customerToDto(customer);
+
+        customerDto.setEmail("test_to_update@gmail.com");
+
+        mockMvc.perform(put(CustomerController.BASE_URL + "/{customerId}", customer.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerDto))
+                ).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.email", equalTo("test_to_update@gmail.com")));
+    }
 
     @DisplayName("Test Get by Id Customer")
     @Test
