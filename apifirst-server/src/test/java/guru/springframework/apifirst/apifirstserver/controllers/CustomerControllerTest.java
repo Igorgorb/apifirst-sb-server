@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -27,16 +26,21 @@ public class CustomerControllerTest extends BaseTest {
     void testUpdateCustomer() throws Exception {
         Customer customer = customerRepository.findAll().iterator().next();
 
-        CustomerDto customerDto = customerMapper.customerToDto(customer);
-
-        customerDto.setEmail("test_to_update@gmail.com");
+        customer.setEmail("test_to_update@gmail.com");
+        customer.getName().setFirstName("Test Update1");
+        customer.getName().setLastName("Test Update2");
+        customer.getPaymentMethods().get(0).setDisplayName("Test Update3");
 
         mockMvc.perform(put(CustomerController.BASE_URL + "/{customerId}", customer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customerDto))
+                        .content(objectMapper.writeValueAsString(customerMapper.customerToDto(customer)))
                 ).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.email", equalTo("test_to_update@gmail.com")));
+                .andExpect(jsonPath("$.email", equalTo("test_to_update@gmail.com")))
+                .andExpect(jsonPath("$.name.firstName", equalTo("Test Update1")))
+                .andExpect(jsonPath("$.name.lastName", equalTo("Test Update2")))
+                .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("Test Update3")));
     }
 
     @DisplayName("Test Get by Id Customer")
