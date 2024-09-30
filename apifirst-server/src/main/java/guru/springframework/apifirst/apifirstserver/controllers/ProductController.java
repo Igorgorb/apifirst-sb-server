@@ -3,6 +3,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 import guru.springframework.apifirst.apifirstserver.services.ProductService;
 import guru.springframework.apifirst.model.ProductCreateDto;
 import guru.springframework.apifirst.model.ProductDto;
+import guru.springframework.apifirst.model.ProductPatchDto;
 import guru.springframework.apifirst.model.ProductUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,14 @@ public class ProductController {
     public static final String BASE_URL = "/v1/products";
 
     private final ProductService productService;
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ProductDto> patchProduct(@PathVariable("productId") UUID productId,
+                                                    @RequestBody ProductPatchDto productPatchDto) {
+
+        final ProductDto productDto = productService.patchProduct(productId, productPatchDto);
+        return ResponseEntity.ok(productDto);
+    }
 
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("productId") UUID productId,

@@ -21,6 +21,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
+    public ProductDto patchProduct(UUID productId, ProductPatchDto productPatchDto) {
+        Product existingProduct = productRepository.findById(productId).orElseThrow();
+        productMapper.patchProduct(productPatchDto, existingProduct);
+
+        return productMapper.productToDto(productRepository.save(existingProduct));
+    }
+
+    @Override
     public ProductDto updateProduct(UUID productId, ProductUpdateDto product) {
         Product existingProduct = productRepository.findById(productId).orElseThrow();
         productMapper.updateProduct(product, existingProduct);

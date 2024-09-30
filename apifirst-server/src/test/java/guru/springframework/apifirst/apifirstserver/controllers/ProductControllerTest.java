@@ -23,6 +23,22 @@ public class ProductControllerTest extends BaseTest {
 
     @Transactional
     @Test
+    void testPatchProduct() throws Exception {
+        Product product = productRepository.findAll().iterator().next();
+
+        ProductPatchDto productPatchDto = productMapper.productToPatchDto(product);
+
+        productPatchDto.setDescription("Patched Description");
+
+        mockMvc.perform(patch(ProductController.BASE_URL + "/{productId}", product.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productPatchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description", equalTo("Patched Description")));
+    }
+
+    @Transactional
+    @Test
     void testUpdateProduct() throws Exception {
         Product product = productRepository.findAll().iterator().next();
 
@@ -30,9 +46,9 @@ public class ProductControllerTest extends BaseTest {
 
         productUpdateDto.setDescription("Updated Description");
 
-        mockMvc.perform(put( ProductController.BASE_URL + "/{productId}", product.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productUpdateDto)))
+        mockMvc.perform(put(ProductController.BASE_URL + "/{productId}", product.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productUpdateDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description", equalTo("Updated Description")));
     }
