@@ -1,10 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.domain.Customer;
-import guru.springframework.apifirst.model.AddressDto;
-import guru.springframework.apifirst.model.CustomerDto;
-import guru.springframework.apifirst.model.NameDto;
-import guru.springframework.apifirst.model.PaymentMethodDto;
+import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +16,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
+
+
+    @Transactional
+    @DisplayName("Test patch Customer")
+    @Test
+    void testPatchCustomer() throws Exception {
+        Customer customer = customerRepository.findAll().iterator().next();
+
+        CustomerPatchDto customerPatchDto = customerMapper.customerToPatchDto(customer);
+
+        customerPatchDto.setEmail("patched@email.com");
+
+        mockMvc.perform(patch(CustomerController.BASE_URL + "/{customerId}", customer.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerPatchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email", equalTo("patched@email.com")));
+    }
 
     @Transactional
     @DisplayName("Test update Customer")

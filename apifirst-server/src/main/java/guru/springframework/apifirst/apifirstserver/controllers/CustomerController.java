@@ -2,6 +2,7 @@ package guru.springframework.apifirst.apifirstserver.controllers;
 
 import guru.springframework.apifirst.apifirstserver.services.CustomerService;
 import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.CustomerPatchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,13 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> updateCustomer(@PathVariable("customerId") UUID customerId,
                                                       @RequestBody CustomerDto customerDto) {
         CustomerDto customerDtoUpdated = customerService.updateCustomer(customerId, customerDto);
+        return ResponseEntity.ok(customerDtoUpdated);
+    }
+
+    @PatchMapping("/{customerId}")
+    public ResponseEntity<CustomerDto> patchCustomer(@PathVariable("customerId") UUID customerId,
+                                                     @RequestBody CustomerPatchDto customerPatchDto) {
+        CustomerDto customerDtoUpdated = customerService.patchCustomer(customerId, customerPatchDto);
         return ResponseEntity.ok(customerDtoUpdated);
     }
 

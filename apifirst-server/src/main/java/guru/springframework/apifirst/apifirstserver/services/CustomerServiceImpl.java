@@ -4,6 +4,7 @@ import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.apifirstserver.mappers.CustomerMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.model.CustomerDto;
+import guru.springframework.apifirst.model.CustomerPatchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,15 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto updateCustomer(UUID customerId, CustomerDto customer) {
         Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow();
         customerMapper.updateCustomer(customer, customerToUpdate);
+        customerRepository.save(customerToUpdate);
+        customerRepository.flush();
+        return customerMapper.customerToDto(customerToUpdate);
+    }
+
+    @Override
+    public CustomerDto patchCustomer(UUID customerId, CustomerPatchDto customerPatchDto) {
+        Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow();
+        customerMapper.patchCustomer(customerPatchDto, customerToUpdate);
         customerRepository.save(customerToUpdate);
         customerRepository.flush();
         return customerMapper.customerToDto(customerToUpdate);
