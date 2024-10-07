@@ -10,12 +10,13 @@ import org.mapstruct.*;
 @DecoratedWith(CustomerMapperDecorator.class)
 public interface CustomerMapper {
 
-    @Mapping(target = "paymentMethods", ignore = true)
     CustomerPatchDto customerToPatchDto(Customer customer);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dateCreated", ignore = true)
     @Mapping(target = "dateUpdated", ignore = true)
+    @Mapping(target = "shipToAddress.id", ignore = true)
+    @Mapping(target = "billToAddress.id", ignore = true)
     @Mapping(target = "paymentMethods", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)

@@ -9,14 +9,12 @@ import org.mapstruct.*;
 @Mapper
 public interface PaymentMethodMapper {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "dateCreated", ignore = true)
     @Mapping(target = "dateUpdated", ignore = true)
+    @Mapping(target = "customer", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-    void patchPaymentMethod(CustomerPaymentMethodPatchDto paymentMethodDto, @MappingTarget PaymentMethod paymentMethod);
-
-    CustomerPaymentMethodPatchDto paymentMethodToCustomerPaymentMethodPatchDto(PaymentMethod paymentMethod);
+    void updatePaymentMethod(CustomerPaymentMethodPatchDto paymentMethodDto, @MappingTarget PaymentMethod paymentMethod);
 
     PaymentMethodDto paymentMethodToDto(PaymentMethod paymentMethod);
 }

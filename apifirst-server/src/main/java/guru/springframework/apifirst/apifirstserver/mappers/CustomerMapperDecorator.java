@@ -1,6 +1,7 @@
 package guru.springframework.apifirst.apifirstserver.mappers;
 
 import guru.springframework.apifirst.apifirstserver.domain.Customer;
+import guru.springframework.apifirst.model.CustomerDto;
 import guru.springframework.apifirst.model.CustomerPatchDto;
 import guru.springframework.apifirst.model.CustomerPaymentMethodPatchDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public abstract class CustomerMapperDecorator implements CustomerMapper {
         delegate.patchCustomer(customerPatchDto, customer);
 
         if (customerPatchDto.getPaymentMethods() != null) {
-            customerPatchDto.getPaymentMethods().forEach(paymentMethodDto -> {
-                customer.getPaymentMethods().stream().filter(pm -> pm.getId().equals(paymentMethodDto.getId()))
+            customerPatchDto.getPaymentMethods().forEach(paymentMethodPatchDto -> {
+                customer.getPaymentMethods().stream().filter(pm -> pm.getId().equals(paymentMethodPatchDto.getId()))
                         .findFirst().ifPresent(pm -> {
-                    paymentMethodMapper.patchPaymentMethod(paymentMethodDto, pm);
+                    paymentMethodMapper.updatePaymentMethod(paymentMethodPatchDto, pm);
                 });
             });
         }
@@ -35,17 +36,21 @@ public abstract class CustomerMapperDecorator implements CustomerMapper {
 
     @Override
     public CustomerPatchDto customerToPatchDto(Customer customer) {
-        if (customer != null) {
-            if (customer.getPaymentMethods() != null) {
-                List<CustomerPaymentMethodPatchDto> paymentMethodPatchDtos = new ArrayList<>();
-                customer.getPaymentMethods().forEach(paymentMethod -> {
-                    paymentMethodPatchDtos.add(paymentMethodMapper.paymentMethodToCustomerPaymentMethodPatchDto(paymentMethod));
-                });
-                CustomerPatchDto result = delegate.customerToPatchDto(customer);
-                result.setPaymentMethods(paymentMethodPatchDtos);
-                return result;
-            }
-        }
-        return null;
+        return delegate.customerToPatchDto(customer);
+    }
+
+    @Override
+    public CustomerDto customerToDto(Customer customer) {
+        return delegate.customerToDto(customer);
+    }
+
+    @Override
+    public Customer dtoToCustomer(CustomerDto customerDto) {
+        return delegate.dtoToCustomer(customerDto);
+    }
+
+    @Override
+    public void updateCustomer(CustomerDto customerDto, Customer customer) {
+        delegate.updateCustomer(customerDto, customer);
     }
 }
