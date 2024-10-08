@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -18,6 +19,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class OrderControllerTest extends BaseTest {
+
+    @DisplayName("Test Delete Order Not Found")
+    @Test
+    @Transactional
+    void deleteOrderNotFound() throws Exception {
+        mockMvc.perform(delete(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
 
     @DisplayName("Test Delete Order")
     @Test

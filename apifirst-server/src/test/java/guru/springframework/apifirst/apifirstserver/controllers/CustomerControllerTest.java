@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -17,6 +18,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
+
+    @DisplayName("Test delete Customer Not Found")
+    @Test
+    void testDeleteCustomerNotFound() throws Exception {
+        mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
 
     @DisplayName("Test delete Customer")
     @Test
