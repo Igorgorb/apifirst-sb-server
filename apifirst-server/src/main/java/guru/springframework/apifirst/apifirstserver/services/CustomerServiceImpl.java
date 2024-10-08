@@ -40,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.customerToDto(savedCustomer);
     }
 
+    @Transactional
     @Override
     public CustomerDto updateCustomer(UUID customerId, CustomerDto customer) {
         Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow();
@@ -49,6 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.customerToDto(customerToUpdate);
     }
 
+    @Transactional
     @Override
     public CustomerDto patchCustomer(UUID customerId, CustomerPatchDto customerPatchDto) {
         Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow();
@@ -56,5 +58,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customerToUpdate);
         customerRepository.flush();
         return customerMapper.customerToDto(customerToUpdate);
+    }
+
+    @Transactional
+    @Override
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 }

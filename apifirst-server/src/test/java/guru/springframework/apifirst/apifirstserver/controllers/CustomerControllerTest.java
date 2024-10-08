@@ -8,15 +8,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.Collections;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 public class CustomerControllerTest extends BaseTest {
 
+    @DisplayName("Test delete Customer")
+    @Test
+    void testDeleteCustomer() throws Exception {
+        CustomerDto customerDto = buildTestCustomerDto();
+        Customer customer = customerRepository.save(customerMapper.dtoToCustomer(customerDto));
+
+        mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", customer.getId()))
+                .andExpect(status().isNoContent());
+
+        assert customerRepository.findById(customer.getId()).isEmpty();
+    }
 
     @Transactional
     @DisplayName("Test patch Customer")
@@ -80,7 +92,17 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Test Create Customer")
     @Test
     public void testCreateCustomer() throws Exception {
-        CustomerDto customer = CustomerDto.builder()
+        CustomerDto customer = buildTestCustomerDto();
+
+        mockMvc.perform(post(CustomerController.BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
+    }
+
+    private CustomerDto buildTestCustomerDto() {
+        return CustomerDto.builder()
                 .name(NameDto.builder()
                         .firstName("Newble")
                         .lastName("Brown")
@@ -99,7 +121,7 @@ public class CustomerControllerTest extends BaseTest {
                         .zip("12345")
                         .addressLine1("address line 1")
                         .build())
-                .paymentMethods(Arrays.asList(PaymentMethodDto.builder()
+                .paymentMethods(Collections.singletonList(PaymentMethodDto.builder()
                         .displayName("Test payment method")
                         .cardNumber(123456789)
                         .cvv(123)
@@ -107,11 +129,5 @@ public class CustomerControllerTest extends BaseTest {
                         .expiryYear(25)
                         .build()))
                 .build();
-
-        mockMvc.perform(post(CustomerController.BASE_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customer)))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
     }
 }
