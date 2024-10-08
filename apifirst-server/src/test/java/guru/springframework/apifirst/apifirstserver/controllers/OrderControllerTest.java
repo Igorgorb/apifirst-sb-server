@@ -19,6 +19,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class OrderControllerTest extends BaseTest {
 
+    @DisplayName("Test Delete Order")
+    @Test
+    @Transactional
+    void deleteOrder() throws Exception {
+        OrderCreateDto orderCreate = buildOrderCreateDto();
+        Order order = orderRepository.save(orderMapper.dtoToOrder(orderCreate));
+
+        mockMvc.perform(delete(OrderController.BASE_URL + "/{orderId}", order.getId()))
+                .andExpect(status().isNoContent());
+
+        assert orderRepository.findById(order.getId()).isEmpty();
+    }
+
     @DisplayName("Patch Order")
     @Transactional
     @Test
@@ -68,14 +81,7 @@ class OrderControllerTest extends BaseTest {
     @Test
     @Transactional
     void createNewOrder() throws Exception {
-        OrderCreateDto orderCreate = OrderCreateDto.builder()
-                .customerId(testCustomer.getId())
-                .selectPaymentMethodId(testCustomer.getPaymentMethods().get(0).getId())
-                .orderLines(Arrays.asList(OrderLineCreateDto.builder()
-                        .productId(testProduct.getId())
-                        .orderQuantity(1)
-                        .build()))
-                .build();
+        OrderCreateDto orderCreate = buildOrderCreateDto();
 
         System.out.println(objectMapper.writeValueAsString(orderCreate));
 
@@ -84,6 +90,17 @@ class OrderControllerTest extends BaseTest {
                         .content(objectMapper.writeValueAsString(orderCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
+    }
+
+    private OrderCreateDto buildOrderCreateDto() {
+        return OrderCreateDto.builder()
+                .customerId(testCustomer.getId())
+                .selectPaymentMethodId(testCustomer.getPaymentMethods().get(0).getId())
+                .orderLines(Collections.singletonList(OrderLineCreateDto.builder()
+                        .productId(testProduct.getId())
+                        .orderQuantity(1)
+                        .build()))
+                .build();
     }
 
     @DisplayName("Test Get List Order")

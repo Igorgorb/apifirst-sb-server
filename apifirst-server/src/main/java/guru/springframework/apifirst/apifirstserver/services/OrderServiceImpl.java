@@ -61,4 +61,10 @@ public class OrderServiceImpl implements OrderService {
 
         return orderMapper.orderToDto(orderRepository.saveAndFlush(existingOrder));
     }
+
+    @Transactional
+    @Override
+    public void deleteOrder(UUID orderId) {
+        orderRepository.deleteById(orderId);
+    }
 }

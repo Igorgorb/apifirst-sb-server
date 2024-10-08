@@ -25,9 +25,15 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") UUID productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{productId}")
     public ResponseEntity<ProductDto> patchProduct(@PathVariable("productId") UUID productId,
-                                                    @RequestBody ProductPatchDto productPatchDto) {
+                                                   @RequestBody ProductPatchDto productPatchDto) {
 
         final ProductDto productDto = productService.patchProduct(productId, productPatchDto);
         return ResponseEntity.ok(productDto);

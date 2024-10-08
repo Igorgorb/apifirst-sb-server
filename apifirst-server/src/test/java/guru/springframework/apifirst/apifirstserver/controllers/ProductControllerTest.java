@@ -21,6 +21,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(OpenApiValidationConfig.class)
 public class ProductControllerTest extends BaseTest {
 
+    @DisplayName("Test delete Product")
+    @Test
+    void testDeleteProduct() throws Exception {
+        ProductCreateDto productDto = buildProductCreateDto();
+        Product product = productRepository.save(productMapper.dtoToProduct(productDto));
+
+        mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", product.getId()))
+                .andExpect(status().isNoContent());
+
+        assert productRepository.findById(product.getId()).isEmpty();
+    }
+
     @Transactional
     @Test
     void testPatchProduct() throws Exception {
@@ -74,7 +86,17 @@ public class ProductControllerTest extends BaseTest {
     @DisplayName("Test create product")
     @Test
     public void testCreateProduct() throws Exception {
-        ProductCreateDto newProduct = ProductCreateDto.builder()
+        ProductCreateDto newProduct = buildProductCreateDto();
+
+        mockMvc.perform(post(ProductController.BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newProduct)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
+    }
+
+    private ProductCreateDto buildProductCreateDto() {
+        return ProductCreateDto.builder()
                 .description("New Product")
                 .cost("5.00")
                 .price("8.95")
@@ -89,11 +111,5 @@ public class ProductControllerTest extends BaseTest {
                         .height(10)
                         .build())
                 .build();
-
-        mockMvc.perform(post(ProductController.BASE_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newProduct)))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"));
     }
 }

@@ -19,4 +19,6 @@ public interface ProductService {
     ProductDto saveNewProduct(ProductCreateDto product);
 
     ProductDto patchProduct(UUID productId, ProductPatchDto productPatchDto);
+
+    void deleteProduct(UUID productId);
 }

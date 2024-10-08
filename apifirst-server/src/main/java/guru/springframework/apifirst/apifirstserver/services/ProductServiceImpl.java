@@ -3,11 +3,14 @@ package guru.springframework.apifirst.apifirstserver.services;
 import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.*;
+import guru.springframework.apifirst.model.ProductCreateDto;
+import guru.springframework.apifirst.model.ProductDto;
+import guru.springframework.apifirst.model.ProductPatchDto;
+import guru.springframework.apifirst.model.ProductUpdateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
@@ -19,6 +22,12 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final ProductMapper productMapper;
+
+    @Transactional
+    @Override
+    public void deleteProduct(UUID productId) {
+        productRepository.deleteById(productId);
+    }
 
     @Override
     public ProductDto patchProduct(UUID productId, ProductPatchDto productPatchDto) {
