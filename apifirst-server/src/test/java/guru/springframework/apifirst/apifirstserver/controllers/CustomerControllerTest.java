@@ -42,7 +42,7 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("Test patch Customer")
     @Test
     void testPatchCustomer() throws Exception {
-        Customer customer = customerRepository.findAll().iterator().next();
+        Customer customer = customerRepository.findAll().getFirst();
 
         CustomerPatchDto customerPatchDto = customerMapper.customerToPatchDto(customer);
 
@@ -85,6 +85,15 @@ public class CustomerControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(testCustomer.getId().toString()));
+
+    }
+
+    @DisplayName("Test Get by Id Customer Not Found")
+    @Test
+    public void testGetCustomerByIdNotFound() throws Exception {
+        mockMvc.perform(get(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
     }
 
