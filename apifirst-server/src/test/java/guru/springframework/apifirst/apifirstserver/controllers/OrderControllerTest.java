@@ -1,10 +1,12 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
 import guru.springframework.apifirst.apifirstserver.domain.Order;
 import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@Import(OpenApiValidationConfig.class)
 class OrderControllerTest extends BaseTest {
 
     @DisplayName("Test Delete Order Not Found")
@@ -128,5 +131,13 @@ class OrderControllerTest extends BaseTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(testOrder.getId().toString()));
+    }
+
+    @DisplayName("Test Get by Id Order Not Found")
+    @Test
+    void getOrderNotFound() throws Exception {
+        mockMvc.perform(get(OrderController.BASE_URL + "/{orderId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

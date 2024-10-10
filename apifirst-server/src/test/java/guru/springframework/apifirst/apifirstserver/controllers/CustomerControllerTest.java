@@ -1,10 +1,12 @@
 package guru.springframework.apifirst.apifirstserver.controllers;
 
+import guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig;
 import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@Import(OpenApiValidationConfig.class)
 public class CustomerControllerTest extends BaseTest {
 
     @DisplayName("Test delete Customer Not Found")

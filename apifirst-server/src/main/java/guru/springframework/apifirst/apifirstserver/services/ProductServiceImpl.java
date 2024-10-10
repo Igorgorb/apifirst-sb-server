@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findById(UUID id) {
-        return productMapper.productToDto(productRepository.findById(id).orElseThrow());
+        return productMapper.productToDto(productRepository.findById(id).orElseThrow(NotFoundException::new));
 
     }
 

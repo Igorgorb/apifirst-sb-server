@@ -82,6 +82,14 @@ public class ProductControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.id").value(testProduct.getId().toString()));
     }
 
+    @DisplayName("Test Get by Id Product Not Found")
+    @Test
+    public void testGetProductByIdNotFound() throws Exception {
+        mockMvc.perform(get(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
     @DisplayName("Test List Products")
     @Test
     public void testListProducts() throws Exception {
