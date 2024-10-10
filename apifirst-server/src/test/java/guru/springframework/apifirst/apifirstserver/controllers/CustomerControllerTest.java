@@ -81,6 +81,19 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.paymentMethods[0].displayName", equalTo("Test Update3")));
     }
 
+    @Transactional
+    @DisplayName("Test update Customer Not Found")
+    @Test
+    void testUpdateCustomerNotFound() throws Exception {
+        CustomerDto customerDto = buildTestCustomerDto();
+
+        mockMvc.perform(put(CustomerController.BASE_URL + "/{customerId}", UUID.randomUUID())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customerDto))
+        ).andExpect(status().isNotFound());
+    }
+
     @DisplayName("Test Get by Id Customer")
     @Test
     public void testGetCustomerById() throws Exception {

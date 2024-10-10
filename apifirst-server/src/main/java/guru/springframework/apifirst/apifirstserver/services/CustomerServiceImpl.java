@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public CustomerDto updateCustomer(UUID customerId, CustomerDto customer) {
-        Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow();
+        Customer customerToUpdate = customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
         customerMapper.updateCustomer(customer, customerToUpdate);
         customerRepository.save(customerToUpdate);
         customerRepository.flush();
