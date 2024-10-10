@@ -41,6 +41,7 @@ public class ProductControllerTest extends BaseTest {
         assert productRepository.findById(product.getId()).isEmpty();
     }
 
+    @DisplayName("Test patch Product")
     @Transactional
     @Test
     void testPatchProduct() throws Exception {
@@ -57,6 +58,7 @@ public class ProductControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.description", equalTo("Patched Description")));
     }
 
+    @DisplayName("Test update Product")
     @Transactional
     @Test
     void testUpdateProduct() throws Exception {
@@ -71,6 +73,20 @@ public class ProductControllerTest extends BaseTest {
                         .content(objectMapper.writeValueAsString(productUpdateDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description", equalTo("Updated Description")));
+    }
+
+    @DisplayName("Test update Product Not Found")
+    @Transactional
+    @Test
+    void testUpdateProductNotFound() throws Exception {
+        Product product = productRepository.findAll().iterator().next();
+
+        ProductUpdateDto productUpdateDto = productMapper.productToUpdateDto(product);
+
+        mockMvc.perform(put(ProductController.BASE_URL + "/{productId}", UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productUpdateDto)))
+                .andExpect(status().isNotFound());
     }
 
     @DisplayName("Test Get by Id Product")
