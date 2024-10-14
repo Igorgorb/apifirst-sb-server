@@ -2,6 +2,7 @@ package guru.springframework.apifirst.apifirstserver.services;
 
 import guru.springframework.apifirst.apifirstserver.domain.Product;
 import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
+import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
 import guru.springframework.apifirst.model.ProductCreateDto;
 import guru.springframework.apifirst.model.ProductDto;
@@ -23,15 +24,21 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
 
+    private final OrderRepository orderRepository;
+
     @Transactional
     @Override
     public void deleteProduct(UUID productId) {
-        productRepository.findById(productId)
-                .ifPresentOrElse(productRepository::delete,
-                        () -> {
-                            throw new NotFoundException("Product not found");
-                        }
-                );
+        productRepository.findById(productId).ifPresentOrElse(product -> {
+                    if (!orderRepository.findAllByOrderLines_Product(product).isEmpty()) {
+                        throw new ConflictException("Product is already in order");
+                    }
+                    productRepository.delete(product);
+                },
+                () -> {
+                    throw new NotFoundException("Product not found");
+                }
+        );
     }
 
     @Override
