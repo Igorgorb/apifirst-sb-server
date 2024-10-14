@@ -10,10 +10,6 @@ import guru.springframework.apifirst.apifirstserver.mappers.ProductMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.apifirstserver.repositories.ProductRepository;
-import guru.springframework.apifirst.model.CustomerDto;
-import guru.springframework.apifirst.model.OrderDto;
-import guru.springframework.apifirst.model.ProductDto;
-import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,9 +29,6 @@ public class BaseTest {
 
     @Autowired
     WebApplicationContext wac;
-
-    @Autowired
-    Filter validationFilter;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -58,7 +51,6 @@ public class BaseTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .addFilter(validationFilter)
                 .build();
 
         testCustomer = customerRepository.findAll().iterator().next();
