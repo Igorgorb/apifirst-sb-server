@@ -3,6 +3,7 @@ package guru.springframework.apifirst.apifirstserver.services;
 import guru.springframework.apifirst.apifirstserver.domain.Customer;
 import guru.springframework.apifirst.apifirstserver.mappers.CustomerMapper;
 import guru.springframework.apifirst.apifirstserver.repositories.CustomerRepository;
+import guru.springframework.apifirst.apifirstserver.repositories.OrderRepository;
 import guru.springframework.apifirst.model.CustomerDto;
 import guru.springframework.apifirst.model.CustomerPatchDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final OrderRepository orderRepository;
 
     @Override
     public List<CustomerDto> listCustomers() {
@@ -63,11 +65,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public void deleteCustomer(UUID customerId) {
-        customerRepository.findById(customerId)
-                .ifPresentOrElse(customerRepository::delete,
-                        () -> {
-                            throw new NotFoundException("Customer not found");
-                        }
-                );
+        customerRepository.findById(customerId).ifPresentOrElse(customer -> {
+                    if (!orderRepository.findAllByCustomer(customer).isEmpty()) {
+                        throw new ConflictException("Customer has orders");
+                    }
+                    customerRepository.deleteById(customerId);
+                },
+                () -> {
+                    throw new NotFoundException("Customer not found");
+                }
+        );
     }
 }
