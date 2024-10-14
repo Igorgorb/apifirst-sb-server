@@ -22,6 +22,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(OpenApiValidationConfig.class)
 public class CustomerControllerTest extends BaseTest {
 
+    @DisplayName("Test delete Customer Conflict With Orders")
+    @Test
+    void testDeleteCustomerConflictWithOrders() throws Exception {
+        Customer customer = customerRepository.findAll().getFirst();
+
+        mockMvc.perform(delete(CustomerController.BASE_URL + "/{customerId}", customer.getId()))
+                .andExpect(status().isConflict());
+    }
+
     @DisplayName("Test delete Customer Not Found")
     @Test
     void testDeleteCustomerNotFound() throws Exception {
