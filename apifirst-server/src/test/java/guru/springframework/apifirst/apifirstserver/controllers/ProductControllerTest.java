@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static com.atlassian.oai.validator.mockmvc.OpenApiValidationMatchers.openApi;
+import static guru.springframework.apifirst.apifirstserver.config.OpenApiValidationConfig.OA3_SPEC;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -21,6 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Import(OpenApiValidationConfig.class)
 public class ProductControllerTest extends BaseTest {
+
+    @DisplayName("Test Conflict delete Product Has Orders")
+    @Test
+    void testDeleteConflictProductHasOrders() throws Exception {
+        mockMvc.perform(delete(ProductController.BASE_URL + "/{productId}", testProduct.getId()))
+                .andExpect(status().isConflict())
+                .andExpect(openApi().isValid(OA3_SPEC));
+    }
 
     @DisplayName("Test delete Product Not Found")
     @Test
